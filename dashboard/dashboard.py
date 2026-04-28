@@ -63,12 +63,35 @@ selected_status = st.sidebar.multiselect(
     default=df['order_status'].unique()
 )
 
+# Validate filter selections
+if not selected_state:
+    st.sidebar.warning("⚠️ Please select at least one Customer State!")
+    selected_state = df['customer_state'].unique()[:5]
+    
+if not selected_category:
+    st.sidebar.warning("⚠️ Please select at least one Product Category!")
+    selected_category = df['product_category_name_english'].unique()[:5]
+    
+if not selected_status:
+    st.sidebar.warning("⚠️ Please select at least one Order Status!")
+    selected_status = df['order_status'].unique()
+
 # Apply filters
-filtered_df = df[
-    (df['customer_state'].isin(selected_state)) &
-    (df['product_category_name_english'].isin(selected_category)) &
-    (df['order_status'].isin(selected_status))
-]
+try:
+    filtered_df = df[
+        (df['customer_state'].isin(selected_state)) &
+        (df['product_category_name_english'].isin(selected_category)) &
+        (df['order_status'].isin(selected_status))
+    ]
+    
+    # Check if filtered_df is empty
+    if filtered_df.empty:
+        st.error("❌ No data available with the selected filters. Please adjust your selections.")
+        filtered_df = df  # Use unfiltered data as fallback
+        
+except Exception as e:
+    st.error(f"❌ Error applying filters: {str(e)}")
+    filtered_df = df
 
 # Key Metrics
 st.subheader("📈 Key Metrics")
