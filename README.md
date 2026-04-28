@@ -199,7 +199,7 @@ This project is part of the Dicoding - Data Analysis Fundamental Course submissi
 
 ## 👤 Author
 
-**Daffa**
+**Muhammad Daffa Alghifari**
 
 ## 📧 Contact
 
